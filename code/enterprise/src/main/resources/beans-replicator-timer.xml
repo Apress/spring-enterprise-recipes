@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="fileCopier"
+		class="com.apress.springenterpriserecipes.replicator.FileCopierImpl" />
+
+	<bean id="documentReplicator"
+		class="com.apress.springenterpriserecipes.replicator.FileReplicatorImpl">
+		<property name="srcDir" value="#{systemProperties['user.home']}/docs" />
+		<property name="destDir" value="#{systemProperties['user.home']}/docs_backup" />
+		<property name="fileCopier" ref="fileCopier" />
+	</bean>
+
+	<bean id="documentReplicationTask"
+		class="org.springframework.scheduling.timer.MethodInvokingTimerTaskFactoryBean">
+		<property name="targetObject" ref="documentReplicator" />
+		<property name="targetMethod" value="replicate" />
+	</bean>
+
+	<bean id="scheduledDocumentReplicationTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+		<property name="timerTask" ref="documentReplicationTask" />
+		<property name="delay" value="5000" />
+		<property name="period" value="60000" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.timer.TimerFactoryBean">
+		<property name="scheduledTimerTasks">
+			<list>
+				<ref local="scheduledDocumentReplicationTask" />
+			</list>
+		</property>
+	</bean>
+</beans>

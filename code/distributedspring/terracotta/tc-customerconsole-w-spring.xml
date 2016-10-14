@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tc:tc-config xmlns:tc="http://www.terracotta.org/config">
+
+    <servers>
+        <server host="%i" name="server1">
+            <dso-port>9510</dso-port>
+            <jmx-port>9520</jmx-port>
+            <data>target/terracotta/server/data</data>
+            <logs>target/terracotta/server/logs</logs>
+            <statistics>target/terracotta/server/statistics</statistics>
+        </server>
+        <update-check>
+            <enabled>true</enabled>
+        </update-check>
+    </servers>
+    <system>
+        <configuration-model>development</configuration-model>
+    </system>
+    <clients>
+        <logs>target/terracotta/clients/logs/%(tc.nodeName)</logs>
+        <statistics>target/terracotta/clients/statistics/%(tc.nodeName)</statistics>
+    </clients>
+    <application>
+        <spring>
+            <jee-application name="*">
+                <application-contexts>
+                    <application-context>
+                        <paths>
+                            <path>customerconsole-context.xml</path>
+                        </paths>
+                        <beans>
+                            <bean name="customerService"/>
+                        </beans>
+                    </application-context>
+                </application-contexts>
+                <locks>
+                    <autolock>
+                        <method-expression>* com.apress.springenterpriserecipes.distributedspring.terracotta.customerconsole.service.CustomerServiceImpl.*(..)
+                        </method-expression>
+                        <lock-level>write</lock-level>
+                    </autolock>
+                </locks>
+            </jee-application>
+        </spring>
+    </application>
+
+
+</tc:tc-config>

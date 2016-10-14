@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="arithmeticCalculator"
+        class="com.apress.springenterpriserecipes.calculator.ArithmeticCalculatorImpl" />
+
+    <bean id="unitCalculator"
+        class="com.apress.springenterpriserecipes.calculator.UnitCalculatorImpl" />
+
+    <bean id="loggingAroundAdvice"
+        class="com.apress.springenterpriserecipes.calculator.LoggingAroundAdvice" />
+
+    <bean id="methodNameAdvisor"
+        class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+        <property name="mappedNames">
+            <list>
+                <value>add</value>
+                <value>sub</value>
+            </list>
+        </property>
+        <property name="advice" ref="loggingAroundAdvice" />
+    </bean>
+
+    <bean id="regexpAdvisor"
+        class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="patterns">
+            <list>
+                <value>.*mul.*</value>
+                <value>.*div.*</value>
+            </list>
+        </property>
+        <property name="advice" ref="loggingAroundAdvice" />
+    </bean>
+
+    <bean id="aspectjAdvisor"
+        class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression">
+            <value>execution(* *.*To*(..))</value>
+        </property>
+        <property name="advice">
+            <ref bean="loggingAroundAdvice" />
+        </property>
+    </bean>
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+</beans>

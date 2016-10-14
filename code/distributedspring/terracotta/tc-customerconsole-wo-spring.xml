@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tc:tc-config xmlns:tc="http://www.terracotta.org/config"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.terracotta.org/schema/terracotta-4.xsd">
+	<servers>
+		<server host="%i" name="server1">
+			<dso-port>9510</dso-port>
+			<jmx-port>9520</jmx-port>
+			<data>target/terracotta/server/data</data>
+			<logs>target/terracotta/server/logs</logs>
+			<statistics>target/terracotta/server/statistics</statistics>
+		</server>
+		<update-check>
+			<enabled>true</enabled>
+		</update-check>
+	</servers>
+	<system>
+		<configuration-model>development</configuration-model>
+	</system>
+	<clients>
+		<logs>target/terracotta/clients/logs/%(tc.nodeName)</logs>
+		<statistics>target/terracotta/clients/statistics/%(tc.nodeName)
+		</statistics>
+	</clients>
+	<application>
+		<dso>
+			<instrumented-classes>
+				<include>
+					<honor-transient>true</honor-transient>
+					<class-expression>
+						com.apress.springenterpriserecipes.distributedspring.terracotta.customerconsole.service.CustomerService*
+					</class-expression>
+				</include>
+				<include>
+					<honor-transient>true</honor-transient>
+					<class-expression>
+						com.apress.springenterpriserecipes.distributedspring.terracotta.customerconsole.entity.*
+					</class-expression>
+				</include>
+			</instrumented-classes>
+			<locks>
+				<autolock auto-synchronized="true">
+					<method-expression>*
+						com.apress.springenterpriserecipes.distributedspring.terracotta.customerconsole.entity.*.toString(..)
+					</method-expression>
+					<lock-level>read</lock-level>
+				</autolock>
+				<autolock auto-synchronized="true">
+					<method-expression>*
+						com.apress.springenterpriserecipes.distributedspring.terracotta.customerconsole.service.*.*(..)
+					</method-expression>
+					<lock-level>write</lock-level>
+				</autolock>
+			</locks>
+			<roots>
+				<root>
+					<field-name>
+						com.apress.springenterpriserecipes.distributedspring.terracotta.customerconsole.service.CustomerServiceImpl.customers
+					</field-name>
+				</root>
+			</roots>
+		</dso>
+	</application>
+</tc:tc-config>

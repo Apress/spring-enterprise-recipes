@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.2.2.RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[true]]></enableImports>
+	<configs>
+		<config>src/main/resources/solution031.xml</config>
+		<config>src/main/resources/solution041_client.xml</config>
+		<config>src/main/resources/solution041_service.xml</config>
+		<config>src/main/resources/solution012.xml</config>
+		<config>src/main/resources/solution013.xml</config>
+		<config>src/main/resources/solution014.xml</config>
+		<config>src/main/resources/solution015.xml</config>
+		<config>src/main/resources/solution016.xml</config>
+		<config>src/main/resources/solution017.xml</config>
+		<config>src/main/resources/solution018.xml</config>
+		<config>src/main/resources/solution019.xml</config>
+		<config>src/main/resources/solution020.xml</config>
+		<config>src/main/resources/solution021.xml</config>
+		<config>src/main/resources/solution032.xml</config>
+	</configs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

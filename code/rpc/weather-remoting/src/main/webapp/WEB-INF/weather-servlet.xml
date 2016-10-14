@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="weatherService"
+        class="com.apress.springenterpriserecipes.weather.WeatherServiceImpl" />
+
+ 
+    <bean name="/WeatherService"
+        class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="service" ref="weatherService" />
+        <property name="serviceInterface"
+            value="com.apress.springenterpriserecipes.weather.WeatherService" />
+    </bean>
+ <!--
+    <bean name="/WeatherService"
+        class="org.springframework.remoting.caucho.BurlapServiceExporter">
+        <property name="service" ref="weatherService" />
+        <property name="serviceInterface"
+            value="com.apress.springenterpriserecipes.weather.WeatherService" />
+    </bean> 
+--><!--
+    <bean name="/WeatherService"
+        class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="weatherService" />
+        <property name="serviceInterface"
+            value="com.apress.springenterpriserecipes.weather.WeatherService" />
+    </bean>
+
+
+    --><!--<bean class="org.codehaus.xfire.spring.remoting.Jsr181HandlerMapping">
+        <property name="xfire" ref="xfire" />
+        <property name="webAnnotations">
+            <bean class="org.codehaus.xfire.annotations.jsr181.Jsr181WebAnnotations" />
+        </property>
+        <property name="urlPrefix" value="/" />
+    </bean>
+--></beans>
